@@ -1,4 +1,4 @@
-## XGCS Masternode Installation
+## CRLM Masternode Installation
 
 **NOTE:** This installation guide is provided as is with no warranties of any kind.
 
@@ -8,11 +8,11 @@ If you follow the steps and use a newly installed Ubuntu 16.04 VPS, it will auto
 
 Steps:
 
-**0) Create a new VPS** or use existing one. Recommended VPS resource configuration is similar to the vultr's $5/mo (25GB SSD/1xCPU/1GB RAM, Ubuntu 16.04). It can handle several MNs running simultaneously on the same public IP address but they have to use dirfferent ports. Therefore you cannot easily run more than one XGCS MN on the same box. Different coins are fine.
+**0) Create a new VPS** or use existing one. Recommended VPS resource configuration is similar to the vultr's $5/mo (25GB SSD/1xCPU/1GB RAM, Ubuntu 16.04). It can handle several MNs running simultaneously on the same public IP address but they have to use dirfferent ports. Therefore you cannot easily run more than one CRLM MN on the same box. Different coins are fine.
 
 **1)** In Windows wallet, **create a new receiving address** and name it **mn1** for example.
 
-**2) Send exactly 500000 XGCS to this new address**. NOTE: if you are setting up many msternodes and wish to perform multiple 500k payments in a row before following through steps (3)-(6), make sure you select correct __inputs__ for each payment or __lock__ your 500k coins manually after each payment using Coin Control Features, otherwise your coins may get reused and only last payment will yield valid masternode output. The wallet will lock your payments automatically after you restart it in step (6).
+**2) Send exactly 500000 CRLM to this new address**. NOTE: if you are setting up many msternodes and wish to perform multiple 500k payments in a row before following through steps (3)-(6), make sure you select correct __inputs__ for each payment or __lock__ your 500k coins manually after each payment using Coin Control Features, otherwise your coins may get reused and only last payment will yield valid masternode output. The wallet will lock your payments automatically after you restart it in step (6).
 
 **3) View masternode outputs** - output transaction ID and transaction index in wallet Debug Console (Tools -> Debug console) by typing:
 
@@ -49,11 +49,11 @@ __NOTE:__ This process may take anywhere from 5 to 20 minutes, depending on your
 
 Once the script completes, it will output your VPS Public IP Address and masternode Private Key which it generated for this masternode. Detailed instructions on what to do next will be provided on the VPS console.
 
-**6) Prepare your Hot Wallet and start the new masternode**. In this step you will introduce your new masternode to the XGCS network by issuing a masternode start command from your wallet, which will broadcast information proving that the collateral for this masternode is secured in your wallet. Without this step your new masternode will function as a regular XGCS node (wallet) and will not yield any rewards. Usually you keep your Hot Wallet on your Windows machine where you securely store your funds for the MN collateral.
+**6) Prepare your Hot Wallet and start the new masternode**. In this step you will introduce your new masternode to the CRLM network by issuing a masternode start command from your wallet, which will broadcast information proving that the collateral for this masternode is secured in your wallet. Without this step your new masternode will function as a regular CRLM node (wallet) and will not yield any rewards. Usually you keep your Hot Wallet on your Windows machine where you securely store your funds for the MN collateral.
 
 Basically all you need to do is just edit the __masternode.conf__ text file located in your hot wallet __data directory__ to enter a few masternode parameters, restart the wallet and then issue a start command for this new masternode.
 
-There are two ways to edit __masternode.conf__. The easiest way is to open the file from within the wallet app (Tools -> Open Masternode Configuration File). Optionally, you can open it from the wallet data folder directly by navigating to the %appdata%/roaming/XGCS. Just hit Win+R, paste %appdata%/roaming/XGCS, hit Enter and then open **masternode.conf** with Notepad for editing. 
+There are two ways to edit __masternode.conf__. The easiest way is to open the file from within the wallet app (Tools -> Open Masternode Configuration File). Optionally, you can open it from the wallet data folder directly by navigating to the %appdata%/roaming/CRLM. Just hit Win+R, paste %appdata%/roaming/CRLM, hit Enter and then open **masternode.conf** with Notepad for editing. 
 
 It does not matter which way you open the file or how you edit it. In either case you will need to restart your wallet when you are done in order for it to pickup the changes you made in the file. Make sure to save it before you restart your wallet.
 
@@ -71,11 +71,11 @@ masternodealias publicipaddress:10233 masternodeprivatekey output-tx-ID output-t
 Where:
 __masternodealias__ - your human readable masternode name (alias) which you use to identify the masternode. It can be any unique name as long as you can recognize it. It exists only in your wallet and has no impact on the masternode functionality.
 
-__publicipaddress:10233__ - this must be your masternode public IP address, which is usually the IP address of your VPS, accessible from the Internet. The new script (v1.1) will detect your IP address automatically. The __:10233__ suffix is the predefined and fixed TCP port which is being used in XGCS network for node-to-node and wallet-to-node communications. This port needs to be opened on your VPS server firewall so that others can talk to your masternode. The setup script takes care of it. NOTE: some VPS service providers may have additional firewall on their network which you may need to configure to open TCP port 10233. Vultr does not require this.
+__publicipaddress:10233__ - this must be your masternode public IP address, which is usually the IP address of your VPS, accessible from the Internet. The new script (v1.1) will detect your IP address automatically. The __:10233__ suffix is the predefined and fixed TCP port which is being used in CRLM network for node-to-node and wallet-to-node communications. This port needs to be opened on your VPS server firewall so that others can talk to your masternode. The setup script takes care of it. NOTE: some VPS service providers may have additional firewall on their network which you may need to configure to open TCP port 10233. Vultr does not require this.
 
-__masternodeprivatekey__ - this is your masternode private key which script will generate automatically. Each masternode will use its own unique private key to maintain secure communication with your Hot Wallet. You will have to generate a new key for each masternode you are setting up. Only your masternode and your hot wallet will be in possession of this private key. In case if you will need to change this key later for some reason, you will have to update it in your __masternode.conf__ in Hot Wallet as well as in the XGCS.conf in data directory on the masternode VPS.
+__masternodeprivatekey__ - this is your masternode private key which script will generate automatically. Each masternode will use its own unique private key to maintain secure communication with your Hot Wallet. You will have to generate a new key for each masternode you are setting up. Only your masternode and your hot wallet will be in possession of this private key. In case if you will need to change this key later for some reason, you will have to update it in your __masternode.conf__ in Hot Wallet as well as in the CRLM.conf in data directory on the masternode VPS.
 
-__output-tx-ID__ - this is your collateral payment Transaction ID which is unique for each masternode. It can be easily located in the transaction details (Transactions tab) or in the list of your **masternode outputs**. This TxID also acts as unique masternode ID on the XGCS network.
+__output-tx-ID__ - this is your collateral payment Transaction ID which is unique for each masternode. It can be easily located in the transaction details (Transactions tab) or in the list of your **masternode outputs**. This TxID also acts as unique masternode ID on the CRLM network.
 
 __output-tx-index__ - this is a single-digit value (0 or 1) which is shown in the **masternode outputs**
 
@@ -98,7 +98,7 @@ IMPORTANT: Spend some time and double check each value you just entered. Copy/pa
 
 Finally, you need to either __restart__ the wallet app, unlock it with your encryption password. At this point the wallet app will read your __masternode.conf__ file and populate the Masternodes tab. Newly added nodes will show up as MISSING, which is normal.
 
-Once the wallet is fully synchronized and your masternode setup script on VPS has finished its synchronization with the network, you can **issue a start broadcast** from your hot wallet to tell the others on XGCS network about your new masternode.
+Once the wallet is fully synchronized and your masternode setup script on VPS has finished its synchronization with the network, you can **issue a start broadcast** from your hot wallet to tell the others on CRLM network about your new masternode.
 
 Todo so you can either run a simple command in Debug Console (Tools -> Debug console):
 
@@ -135,16 +135,16 @@ If you are really bored waiting for the sync to complete, you can watch what you
 sudo tail -f ~/.corallium/debug.log
 ```
 
-And for those who wonder what does **XGCS.conf** file looks like for a typical masternode which the setup script generates, here's an example below...
+And for those who wonder what does **CRLM.conf** file looks like for a typical masternode which the setup script generates, here's an example below...
 
-Note that both, the __externalip__ should match the IP address and __masternodeprivkey__ should match the private key in your  __masternode.conf__ of your hot wallet in order for the masternode to function properly. If any of these two parameters change, they must be changed in both, the XGCS.conf file on the masternode VPS (located in /root/.XGCS directory) and masternode.conf on Hot Wallet PC (located in %appdata%/XGCS folder).
+Note that both, the __externalip__ should match the IP address and __masternodeprivkey__ should match the private key in your  __masternode.conf__ of your hot wallet in order for the masternode to function properly. If any of these two parameters change, they must be changed in both, the CRLM.conf file on the masternode VPS (located in /root/.CRLM directory) and masternode.conf on Hot Wallet PC (located in %appdata%/CRLM folder).
 
 Example: 
 
 **nano /root/.corallium/corallium.conf**
 
 ```bash
-rpcuser=XGCSrpc
+rpcuser=CRLMrpc
 rpcpassword=$rpcpassword
 rpcallowip=127.0.0.1
 onlynet=ipv4
@@ -159,7 +159,7 @@ masternodeprivkey=$genkey
 
 **In conclusion**
 
-The script adds a cron job which starts XGCSd daemon upon reboot. Try restarting your VPS server (just type reboot in Linux console) and see if your masternode comes back online automatically in a few minutes. Log back in using PuTTY and run the following command to monitor your masternode status:
+The script adds a cron job which starts CRLMd daemon upon reboot. Try restarting your VPS server (just type reboot in Linux console) and see if your masternode comes back online automatically in a few minutes. Log back in using PuTTY and run the following command to monitor your masternode status:
 
 ```
 watch -n 10 'corallium-cli masternode status && corallium-cli mnsync status'
@@ -193,12 +193,12 @@ The main purpose of this simple script is to monitor **masternode status and pee
 
 Typically you should see more than a few nodes listed in the table and the amount of data sent/received should be updating every several seconds on a healthy masternode.
 
-Currently XGCS nodes will display most (if not all) peers with IPv6 addresses. This is normal as long as the data is being transferred and peers stay connected for a long time. Initially, when the node is just started, the outbound connection table may not show any peers for quite some time. It may take several hours to build up a healthy and stable list of peers.
+Currently CRLM nodes will display most (if not all) peers with IPv6 addresses. This is normal as long as the data is being transferred and peers stay connected for a long time. Initially, when the node is just started, the outbound connection table may not show any peers for quite some time. It may take several hours to build up a healthy and stable list of peers.
 
 Sample output of the script from node 45.76.12.139 on Apr-26th 2018:
 ```
 ===========================================================================
-Outbound connections to other XGCS.Network nodes [XGCS datadir: /root/.corallium]
+Outbound connections to other CRLM.Network nodes [CRLM datadir: /root/.corallium]
 ===========================================================================
 Node IP               Ping    Rx/Tx     Since  Hdrs   Height  Time   Ban
 Address               (ms)   (KBytes)   Block  Syncd  Blocks  (min)  Score
@@ -210,7 +210,7 @@ Address               (ms)   (KBytes)   Block  Syncd  Blocks  (min)  Score
  22:14:21 up 3 days, 22:59,  3 users,  load average: 0.01, 0.03, 0.00
 ===========================================================================
 Masternode Status:
-# XGCS-cli -datadir=/root/.corallium masternode status
+# CRLM-cli -datadir=/root/.corallium masternode status
 {
   "vin": "CTxIn(COutPoint(0a5afa9e8c41d003c4399f089bc54880e05ce8a051d30932d236ba12b5d1040b, 0), scriptSig=)",
   "service": "45.76.12.139:10233",
@@ -219,7 +219,7 @@ Masternode Status:
 }
 ===========================================================================
 Sync Status:
-# XGCS-cli -datadir=/root/.corallium mnsync status
+# CRLM-cli -datadir=/root/.corallium mnsync status
 {
   "AssetID": 999,
   "AssetName": "MASTERNODE_SYNC_FINISHED",
@@ -232,7 +232,7 @@ Sync Status:
 }
 ===========================================================================
 Masternode Information:
-# XGCS-cli -datadir=/root/.corallium getinfo
+# CRLM-cli -datadir=/root/.corallium getinfo
 {
   "version": 2000001,
   "protocolversion": 70206,
@@ -253,7 +253,7 @@ Masternode Information:
 }
 ===========================================================================
 Usage: coralliummon.sh [refresh delay] [datadir index]
-Example: coralliummon.sh 10 22 will run every 10 seconds and query XGCSd in /root/.XGCS22
+Example: coralliummon.sh 10 22 will run every 10 seconds and query CRLMd in /root/.CRLM22
 
 
 Press Ctrl-C to Exit...
@@ -266,7 +266,7 @@ Press Ctrl-C to Exit...
 
 If you found this script and masternode setup guide helpful...
 
-...please donate XGCS to: **XRU3ZieGKjLiKMhgXtsndRwmLgDoEWqUh5**
+...please donate CRLM to: **XRU3ZieGKjLiKMhgXtsndRwmLgDoEWqUh5**
 
 -Authors: npq7721 and 
 

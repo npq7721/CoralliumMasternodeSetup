@@ -15,7 +15,7 @@ GREEN='\033[1;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-#XGCS TCP port
+#CRLM TCP port
 PORT=10233
 RPC=23057
 
@@ -281,7 +281,7 @@ ${YELLOW}Masternode setup is complete!${NC}
 Masternode was installed with VPS IP Address: ${YELLOW}$publicip${NC}
 Masternode Private Key: ${YELLOW}$genkey${NC}
 Now you can add the following string to the masternode.conf file
-for your Hot Wallet (the wallet with your XGCSCOIN collateral funds):
+for your Hot Wallet (the wallet with your CRLMCOIN collateral funds):
 ======================================================================== \a"
 echo -e "${YELLOW}mn1 $publicip:$PORT $genkey TxId TxIdx${NC}"
 echo -e "========================================================================
@@ -319,7 +319,7 @@ Once completed step (2), return to this VPS console and wait for the
 Masternode Status to change to: 'Masternode successfully started'.
 This will indicate that your masternode is fully functional and
 you can celebrate this achievement!
-Currently your masternode is syncing with the XGCS network...
+Currently your masternode is syncing with the CRLM network...
 The following screen will display in real-time
 the list of peer connections, the status of your masternode,
 node synchronization status and additional network and node stats.
@@ -355,7 +355,7 @@ sync status etc. in real-time, run the nodemon.sh script:
                  ${YELLOW}nodemon.sh${NC}
 or just type 'node' and hit <TAB> to autocomplete script name.
 ========================================================================
-Enjoy your XGCS Masternode and thanks for using this setup script!
+Enjoy your CRLM Masternode and thanks for using this setup script!
 
 If you found this script useful, please donate to : 
 ${GREEN}CRU3ZieGKjLiKMhgXtsndRwmLgDoEWqUh5${NC}
