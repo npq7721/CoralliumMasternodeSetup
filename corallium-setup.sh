@@ -1,12 +1,12 @@
 #!/bin/bash
-# XGalaxy Masternode Setup Script V1.4 for Ubuntu 16.04 LTS
-# (c) 2018 by npq7721 for XGalaxy Coin
+# Corallium Masternode Setup Script V1.4 for Ubuntu 16.04 LTS
+# (c) 2018 by npq7721 for Corallium Coin
 #
 # Script will attempt to autodetect primary public IP address
 # and generate masternode private key unless specified in command line
 #
 # Usage:
-# bash xgalaxy-setup.sh 
+# bash corallium-setup.sh 
 #
 
 #Color codes
@@ -16,7 +16,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 #XGCS TCP port
-PORT=23058
+PORT=10233
 RPC=23057
 
 #Clear keyboard input buffer
@@ -27,17 +27,17 @@ function delay { echo -e "${GREEN}Sleep for $1 seconds...${NC}"; sleep "$1"; }
 
 #Stop daemon if it's already running
 function stop_daemon {
-    if pgrep -x 'xgalaxyd' > /dev/null; then
-        echo -e "${YELLOW}Attempting to stop xgalaxyd${NC}"
-        xgalaxy-cli stop
+    if pgrep -x 'coralliumd' > /dev/null; then
+        echo -e "${YELLOW}Attempting to stop coralliumd${NC}"
+        corallium-cli stop
         delay 30
-        if pgrep -x 'xgalaxy' > /dev/null; then
-            echo -e "${RED}xgalaxyd daemon is still running!${NC} \a"
+        if pgrep -x 'corallium' > /dev/null; then
+            echo -e "${RED}coralliumd daemon is still running!${NC} \a"
             echo -e "${RED}Attempting to kill...${NC}"
-            pkill xgalaxyd
+            pkill coralliumd
             delay 30
-            if pgrep -x 'xgalaxyd' > /dev/null; then
-                echo -e "${RED}Can't stop xgalaxyd! Reboot and try again...${NC} \a"
+            if pgrep -x 'coralliumd' > /dev/null; then
+                echo -e "${RED}Can't stop coralliumd! Reboot and try again...${NC} \a"
                 exit 2
             fi
         fi
@@ -55,10 +55,10 @@ fi
 
 #Process command line parameters
 genkey=$1
-rm -rf .xgalaxycore
+rm -rf .corallium
 clear
 
-echo -e "${YELLOW}XGalaxy Masternode Setup Script V1.5 for Ubuntu 16.04 LTS${NC}"
+echo -e "${YELLOW}Corallium Masternode Setup Script V1.5 for Ubuntu 16.04 LTS${NC}"
 echo "Do you want me to generate a masternode private key for you?[y/n]"
 read DOSETUP
 
@@ -155,7 +155,7 @@ echo -e "${NC}"
 } &> /dev/null
 echo -ne '[###################] (100%)\n'
 
-#Generating Random Password for xgalaxyd JSON RPC
+#Generating Random Password for coralliumd JSON RPC
 rpcuser=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 rpcpassword=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 
@@ -179,47 +179,47 @@ else
 fi
 
 #KILL THE MFER
-pkill xgalaxyd
-rm -r .xgalaxycore 
-rm -rf /usr/bin/xgalaxy*
+pkill coralliumd
+rm -r .corallium 
+rm -rf /usr/bin/corallium*
  
 #Installing Daemon
  cd ~
-wget https://github.com/npq7721/ProjectsReleases/releases/download/XGalaxy-Beta-2/XGalaxy-beta-2-linux.tar.gz
-tar -xzf XGalaxy-beta-2-linux.tar.gz -C ~/XGalaxyMasternodeSetup
-rm -rf XGalaxy-beta-2-linux.tar.gz
+wget https://github.com/npq7721/Corallium2/releases/download/beta-6/corallium_beta_6_linux.tar.gz
+tar -xzf corallium_beta_6_linux.tar.gz -C ~/CoralliumMasternodeSetup
+rm -rf corallium_beta_6_linux.tar.gz
 
   stop_daemon
  
  # Deploy binaries to /usr/bin
- sudo cp ~/XGalaxyMasternodeSetup/XGalaxy-beta-2-linux/xgalaxy* /usr/bin/
- sudo chmod 755 -R ~/XGalaxyMasternodeSetup
- sudo chmod 755 /usr/bin/xgalaxy* 
+ sudo cp ~/CoralliumMasternodeSetup/corallium_beta_6_linux/corallium* /usr/bin/
+ sudo chmod 755 -R ~/CoralliumMasternodeSetup
+ sudo chmod 755 /usr/bin/corallium* 
  # Deploy masternode monitoring script
- cp ~/XGalaxyMasternodeSetup/xgalaxymon.sh /usr/local/bin
- sudo chmod 711 /usr/local/bin/xgalaxymon.sh
+ cp ~/CoralliumMasternodeSetup/coralliummon.sh /usr/local/bin
+ sudo chmod 711 /usr/local/bin/coralliummon.sh
  # Deploy restart script 
- cp ~/XGalaxyMasternodeSetup/xgalaxy-restart.sh /usr/local/bin
- sudo chmod 711 /usr/local/bin/xgalaxy-restart.sh
+ cp ~/CoralliumMasternodeSetup/corallium-restart.sh /usr/local/bin
+ sudo chmod 711 /usr/local/bin/corallium-restart.sh
  
- #Create xgalaxy datadir
- if [ ! -f ~/.xgalaxycore/xgalaxy.conf ]; then 
- 	sudo mkdir ~/.xgalaxycore
+ #Create corallium datadir
+ if [ ! -f ~/.corallium/corallium.conf ]; then 
+ 	sudo mkdir ~/.corallium
  fi
 
-echo -e "${YELLOW}Creating xgalaxy.conf...${NC}"
+echo -e "${YELLOW}Creating corallium.conf...${NC}"
 
 # If genkey was not supplied in command line, we will generate private key on the fly
 if [ -z $genkey ]; then
-    cat <<EOF > ~/.xgalaxycore/xgalaxy.conf
+    cat <<EOF > ~/.corallium/corallium.conf
 rpcuser=$rpcuser
 rpcpassword=$rpcpassword
 EOF
 
-    sudo chmod 755 -R ~/.xgalaxycore/xgalaxy.conf
+    sudo chmod 755 -R ~/.corallium/corallium.conf
 
     #Starting daemon first time just to generate masternode private key
-    xgalaxyd -daemon
+    coralliumd -daemon
 echo -ne '[##                 ] (15%)\r'
 sleep 6
 echo -ne '[######             ] (30%)\r'
@@ -233,19 +233,19 @@ echo -ne '\n'
 
     #Generate masternode private key
     echo -e "${YELLOW}Generating masternode private key...${NC}"
-    genkey=$(xgalaxy-cli masternode genkey)
+    genkey=$(corallium-cli masternode genkey)
     if [ -z "$genkey" ]; then
         echo -e "${RED}ERROR: Can not generate masternode private key.${NC} \a"
         echo -e "${RED}ERROR: Reboot VPS and try again or supply existing genkey as a parameter.${NC}"
         exit 1
     fi
     
-    #Stopping daemon to create xgalaxy.conf
+    #Stopping daemon to create corallium.conf
     stop_daemon
 fi
 
-# Create xgalaxy.conf
-cat <<EOF > ~/.xgalaxycore/xgalaxy.conf
+# Create corallium.conf
+cat <<EOF > ~/.corallium/corallium.conf
 rpcuser=$rpcuser
 rpcpassword=$rpcpassword
 rpcport=$RPC
@@ -261,12 +261,12 @@ masternodeprivkey=$genkey
 
 EOF
 
-#Finally, starting xgalaxy daemon with new xgalaxy.conf
-xgalaxyd --daemon
+#Finally, starting corallium daemon with new corallium.conf
+coralliumd --daemon
 delay 5
 
-#Setting auto start cron job for xgalaxyd
-cronjob="@reboot sleep 30 && xgalaxyd"
+#Setting auto start cron job for coralliumd
+cronjob="@reboot sleep 30 && coralliumd"
 crontab -l > tempcron
 if ! grep -q "$cronjob" tempcron; then
     echo -e "${GREEN}Configuring crontab job...${NC}"
@@ -331,21 +331,21 @@ echo -e "
 ${GREEN}...scroll up to see previous screens...${NC}
 Here are some useful commands and tools for masternode troubleshooting:
 ========================================================================
-To view masternode configuration produced by this script in xgalaxy.conf:
-${YELLOW}cat ~/.xgalaxycore/xgalaxy.conf${NC}
-Here is your xgalaxy.conf generated by this script:
+To view masternode configuration produced by this script in corallium.conf:
+${YELLOW}cat ~/.corallium/corallium.conf${NC}
+Here is your corallium.conf generated by this script:
 -------------------------------------------------${YELLOW}"
-cat ~/.xgalaxycore/xgalaxy.conf
+cat ~/.corallium/corallium.conf
 echo -e "${NC}-------------------------------------------------
-NOTE: To edit xgalaxy.conf, first stop the xgalaxyd daemon,
-then edit the xgalaxy.conf file and save it in nano: (Ctrl-X + Y + Enter),
-then start the xgalaxyd daemon back up:
-             to stop:   ${YELLOW}xgalaxy-cli stop${NC}
-             to edit:   ${YELLOW}nano ~/.xgalaxycore/xgalaxy.conf${NC}
-             to start:  ${YELLOW}xgalaxyd${NC}
+NOTE: To edit corallium.conf, first stop the coralliumd daemon,
+then edit the corallium.conf file and save it in nano: (Ctrl-X + Y + Enter),
+then start the coralliumd daemon back up:
+             to stop:   ${YELLOW}corallium-cli stop${NC}
+             to edit:   ${YELLOW}nano ~/.corallium/corallium.conf${NC}
+             to start:  ${YELLOW}coralliumd${NC}
 ========================================================================
 To view Itis debug log showing all MN network activity in realtime:
-             ${YELLOW}tail -f ~/.xgalaxycore/debug.log${NC}
+             ${YELLOW}tail -f ~/.corallium/debug.log${NC}
 ========================================================================
 To monitor system resource utilization and running processes:
                    ${YELLOW}htop${NC}
@@ -358,12 +358,12 @@ or just type 'node' and hit <TAB> to autocomplete script name.
 Enjoy your XGCS Masternode and thanks for using this setup script!
 
 If you found this script useful, please donate to : 
-${GREEN}XRU3ZieGKjLiKMhgXtsndRwmLgDoEWqUh5${NC}
+${GREEN}CRU3ZieGKjLiKMhgXtsndRwmLgDoEWqUh5${NC}
 ...and make sure to check back for updates!
 Author: npq7721
 "
 delay 30
 # Run nodemon.sh
-xgalaxymon.sh
+coralliummon.sh
 
 # EOF

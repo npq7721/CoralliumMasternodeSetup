@@ -1,9 +1,9 @@
 #!/bin/bash
-# XGalaxy Restart Script
-# (c) 2018 by npq7721 for XGalaxy 
+# Corallium Restart Script
+# (c) 2018 by npq7721 for Corallium 
 #
 # Usage:
-# bash xgalaxy-setup.sh 
+# bash corallium-setup.sh 
 #
 
 #Color codes
@@ -17,22 +17,22 @@ NC='\033[0m' # No Color
 #Delay script execution for N seconds
 function delay { echo -e "${GREEN}Sleep for $1 seconds...${NC}"; sleep "$1"; }
 
-echo -e "${YELLOW}XGalaxy Restart Script v0.1${NC}"
+echo -e "${YELLOW}Corallium Restart Script v0.1${NC}"
 
 #KILL THE MFER
-    xgalaxy-cli stop
-    pkill xgalaxyd
+    corallium-cli stop
+    pkill coralliumd
     delay 20
 
 #Delete .reecore contents 
-echo -e "${YELLOW}Scrapping .xgalaxycore...${NC}"
-cd ~/.xgalaxycore
+echo -e "${YELLOW}Scrapping .corallium...${NC}"
+cd ~/.corallium
 rm -rf c* b* w* p* n* m* f* d* g*
 
 
 
 #Restarting Daemon
-    xgalaxyd -daemon
+    coralliumd -daemon
 echo -ne '[##                 ] (15%)\r'
 sleep 6
 echo -ne '[######             ] (30%)\r'

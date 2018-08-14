@@ -29,12 +29,12 @@ To download (clone) the script and binaries to your VPS, use the following comma
 
 ```bash
 cd ~
-git clone https://github.com/npq7721/XGalaxyMasternodeSetup.git
+git clone https://github.com/npq7721/CoralliumMasternodeSetup.git
 ```
 
 __NOTE:__ in case if you will need to re-download this setup script or binaries from github repo, use the following git command:
 ```bash
-cd ~/XGalaxyMasternodeSetup
+cd ~/CoralliumMasternodeSetup
 git reset --hard
 git pull
 ```
@@ -42,8 +42,8 @@ git pull
 **5) Run the install script** which will install and configure your masternode with all necessary options.
 
 ```bash
-cd ~/XGalaxyMasternodeSetup
-bash xgalaxy-setup.sh
+cd ~/CoralliumMasternodeSetup
+bash corallium-setup.sh
 ```
 __NOTE:__ This process may take anywhere from 5 to 20 minutes, depending on your VPS HW specs. If it's not your very first ever masternode setup, you may want to speed up the process by doing things in parallel. While the MN setup script is running on the VPS, you can spend this time getting ready to start your new masternode from your Hot Wallet (also referred to as Control Wallet) by following instructions in next step (6).
 
@@ -60,18 +60,18 @@ It does not matter which way you open the file or how you edit it. In either cas
 __Here's what you need to do in masternode.conf file__. For each masternode you are going to setup, you need to enter one separate line of text  which will look like this:
 
 ```bash
-mn1 231.321.11.22:23058 27KTCRKgqjBgQbAS2BN9uX8GHBu16wXfr4z4hNDZWQAubqD8fr6 5d46f69f1770cb051baf594d011f8fa5e12b502ff18509492de28adfe2bbd229 0
+mn1 231.321.11.22:10233 27KTCRKgqjBgQbAS2BN9uX8GHBu16wXfr4z4hNDZWQAubqD8fr6 5d46f69f1770cb051baf594d011f8fa5e12b502ff18509492de28adfe2bbd229 0
 ```
 
 The format for this string is as follow:
 ```bash
-masternodealias publicipaddress:23058 masternodeprivatekey output-tx-ID output-tx-index
+masternodealias publicipaddress:10233 masternodeprivatekey output-tx-ID output-tx-index
 ```
 
 Where:
 __masternodealias__ - your human readable masternode name (alias) which you use to identify the masternode. It can be any unique name as long as you can recognize it. It exists only in your wallet and has no impact on the masternode functionality.
 
-__publicipaddress:23058__ - this must be your masternode public IP address, which is usually the IP address of your VPS, accessible from the Internet. The new script (v1.1) will detect your IP address automatically. The __:23058__ suffix is the predefined and fixed TCP port which is being used in XGCS network for node-to-node and wallet-to-node communications. This port needs to be opened on your VPS server firewall so that others can talk to your masternode. The setup script takes care of it. NOTE: some VPS service providers may have additional firewall on their network which you may need to configure to open TCP port 23058. Vultr does not require this.
+__publicipaddress:10233__ - this must be your masternode public IP address, which is usually the IP address of your VPS, accessible from the Internet. The new script (v1.1) will detect your IP address automatically. The __:10233__ suffix is the predefined and fixed TCP port which is being used in XGCS network for node-to-node and wallet-to-node communications. This port needs to be opened on your VPS server firewall so that others can talk to your masternode. The setup script takes care of it. NOTE: some VPS service providers may have additional firewall on their network which you may need to configure to open TCP port 10233. Vultr does not require this.
 
 __masternodeprivatekey__ - this is your masternode private key which script will generate automatically. Each masternode will use its own unique private key to maintain secure communication with your Hot Wallet. You will have to generate a new key for each masternode you are setting up. Only your masternode and your hot wallet will be in possession of this private key. In case if you will need to change this key later for some reason, you will have to update it in your __masternode.conf__ in Hot Wallet as well as in the XGCS.conf in data directory on the masternode VPS.
 
@@ -124,15 +124,15 @@ Go back to your VPS and wait for the status of your new masternode to change to 
 Finally, to **monitor your masternode status** you can use the following commands in Linux console of your masternode VPS:
 
 ```bash
-xgalaxy-cli masternode status
+corallium-cli masternode status
 
-xgalaxy-cli mnsync status
+corallium-cli mnsync status
 ```
 
 If you are really bored waiting for the sync to complete, you can watch what your masternode is doing on the network at any time by using tail to **monitor the debug.log** file in realtime:
 
 ```bash
-sudo tail -f ~/.xgalaxycore/debug.log
+sudo tail -f ~/.corallium/debug.log
 ```
 
 And for those who wonder what does **XGCS.conf** file looks like for a typical masternode which the setup script generates, here's an example below...
@@ -141,7 +141,7 @@ Note that both, the __externalip__ should match the IP address and __masternodep
 
 Example: 
 
-**nano /root/.xgalaxycore/xgalaxy.conf**
+**nano /root/.corallium/corallium.conf**
 
 ```bash
 rpcuser=XGCSrpc
@@ -162,7 +162,7 @@ masternodeprivkey=$genkey
 The script adds a cron job which starts XGCSd daemon upon reboot. Try restarting your VPS server (just type reboot in Linux console) and see if your masternode comes back online automatically in a few minutes. Log back in using PuTTY and run the following command to monitor your masternode status:
 
 ```
-watch -n 10 'xgalaxy-cli masternode status && xgalaxy-cli mnsync status'
+watch -n 10 'corallium-cli masternode status && corallium-cli mnsync status'
 ```
 
 The expected output for a functioning masternode will eventually look like this:
@@ -170,8 +170,8 @@ The expected output for a functioning masternode will eventually look like this:
 ```
 {
   "vin": "CTxIn(COutPoint(cbe3c99bed2c874a14675c54004a5b5bfda8473b98bfbd80a15743c2a1117d4f, 1), scriptSig=)",
-  "service": "104.207.157.213:23058",
-  "payee": "RN3ZoisQkdsCuXj7799kEcvJkWk6Bhc4uJ",
+  "service": "104.207.157.213:10233",
+  "payee": "CN3ZoisQkdsCuXj7799kEcvJkWk6Bhc4uJ",
   "status": "Masternode successfully started"
 }
 {
@@ -187,7 +187,7 @@ The expected output for a functioning masternode will eventually look like this:
 
 ```
 
-**Advanced masternode monitoring script: xgalaxymon.sh**
+**Advanced masternode monitoring script: coralliummon.sh**
 
 The main purpose of this simple script is to monitor **masternode status and peer connections** in real-time. It will display all current __outbound__ connections of your masternode with great amount of statistis which can be used for troubleshooting of sync issues.
 
@@ -198,28 +198,28 @@ Currently XGCS nodes will display most (if not all) peers with IPv6 addresses. T
 Sample output of the script from node 45.76.12.139 on Apr-26th 2018:
 ```
 ===========================================================================
-Outbound connections to other XGCS.Network nodes [XGCS datadir: /root/.xgalaxycore]
+Outbound connections to other XGCS.Network nodes [XGCS datadir: /root/.corallium]
 ===========================================================================
 Node IP               Ping    Rx/Tx     Since  Hdrs   Height  Time   Ban
 Address               (ms)   (KBytes)   Block  Syncd  Blocks  (min)  Score
 ===========================================================================
-95.171.6.105:23058     118   6818/7929  2586   3706   3706    2361   0
-24.176.52.93:23058     37    5770/6829  2614   3706   3706    2301   0
-38.103.14.19:23058     8     9787/8024  2657   3706   3706    2208   0
+95.171.6.105:10233     118   6818/7929  2586   3706   3706    2361   0
+24.176.52.93:10233     37    5770/6829  2614   3706   3706    2301   0
+38.103.14.19:10233     8     9787/8024  2657   3706   3706    2208   0
 ===========================================================================
  22:14:21 up 3 days, 22:59,  3 users,  load average: 0.01, 0.03, 0.00
 ===========================================================================
 Masternode Status:
-# XGCS-cli -datadir=/root/.xgalaxycore masternode status
+# XGCS-cli -datadir=/root/.corallium masternode status
 {
   "vin": "CTxIn(COutPoint(0a5afa9e8c41d003c4399f089bc54880e05ce8a051d30932d236ba12b5d1040b, 0), scriptSig=)",
-  "service": "45.76.12.139:23058",
-  "payee": "RXzYZLmj9D6o6XtdK3M3xY2xCfNTSW464m",
+  "service": "45.76.12.139:10233",
+  "payee": "CXzYZLmj9D6o6XtdK3M3xY2xCfNTSW464m",
   "status": "Masternode successfully started"
 }
 ===========================================================================
 Sync Status:
-# XGCS-cli -datadir=/root/.xgalaxycore mnsync status
+# XGCS-cli -datadir=/root/.corallium mnsync status
 {
   "AssetID": 999,
   "AssetName": "MASTERNODE_SYNC_FINISHED",
@@ -232,7 +232,7 @@ Sync Status:
 }
 ===========================================================================
 Masternode Information:
-# XGCS-cli -datadir=/root/.xgalaxycore getinfo
+# XGCS-cli -datadir=/root/.corallium getinfo
 {
   "version": 2000001,
   "protocolversion": 70206,
@@ -252,8 +252,8 @@ Masternode Information:
   "errors": ""
 }
 ===========================================================================
-Usage: xgalaxymon.sh [refresh delay] [datadir index]
-Example: xgalaxymon.sh 10 22 will run every 10 seconds and query XGCSd in /root/.XGCS22
+Usage: coralliummon.sh [refresh delay] [datadir index]
+Example: coralliummon.sh 10 22 will run every 10 seconds and query XGCSd in /root/.XGCS22
 
 
 Press Ctrl-C to Exit...
