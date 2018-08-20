@@ -185,14 +185,14 @@ rm -rf /usr/bin/corallium*
  
 #Installing Daemon
  cd ~
-wget https://github.com/npq7721/Corallium2/releases/download/beta-6/corallium_beta_6_linux.tar.gz
-tar -xzf corallium_beta_6_linux.tar.gz -C ~/CoralliumMasternodeSetup
-rm -rf corallium_beta_6_linux.tar.gz
+wget https://github.com/npq7721/Corallium2/releases/download/beta-6.1/corallium_beta_6.1_linux.tar.gz
+tar -xzf corallium_beta_6.1_linux.tar.gz -C ~/CoralliumMasternodeSetup
+rm -rf corallium_beta_6.1_linux.tar.gz
 
   stop_daemon
  
  # Deploy binaries to /usr/bin
- sudo cp ~/CoralliumMasternodeSetup/corallium_beta_6_linux/corallium* /usr/bin/
+ sudo cp ~/CoralliumMasternodeSetup/corallium_beta_6.1_linux/corallium* /usr/bin/
  sudo chmod 755 -R ~/CoralliumMasternodeSetup
  sudo chmod 755 /usr/bin/corallium* 
  # Deploy masternode monitoring script
